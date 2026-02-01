@@ -1,0 +1,4 @@
+numpy==2.4.1
+opencv-python==4.13.0.90
+pye57==0.4.19
+pyquaternion==0.9.9
