@@ -19,7 +19,7 @@ async function imageExist(path: string): Promise<boolean> {
 }
 
 async function getPanoramas(): Promise<Panorama[]> {
-    let res = await fetch(import.meta.env.VITE_PANO_LIST)
+    let res = await fetch(import.meta.env.VITE_BASE_DATA_URL + import.meta.env.VITE_PANO_LIST)
     const raw = await res.text()
     const infoList = raw.split('\n').map(line => line.trim())
     const panoramas: Panorama[] = []
@@ -28,10 +28,10 @@ async function getPanoramas(): Promise<Panorama[]> {
         if (info.length === 0) continue
 
         try {
-            res = await fetch(`${import.meta.env.VITE_PANO_INFOS}/${info}`)
+            res = await fetch(`${import.meta.env.VITE_BASE_DATA_URL + import.meta.env.VITE_PANO_INFOS}/${info}`)
             const pano: RawPanorama = await res.json()
             const panoId = info.split('-')[0]
-            const panoImg = `${import.meta.env.VITE_PANO_IMAGES}/${panoId}.jpg`
+            const panoImg = `${import.meta.env.VITE_BASE_DATA_URL + import.meta.env.VITE_PANO_IMAGES}/${panoId}.jpg`
 
             if (await imageExist(panoImg))
                 panoramas.push({

@@ -34,7 +34,7 @@ export function PotreeViewer({ pointBudget, setSelectedPano, viewMode }: PotreeV
         viewer.setBackground("skybox")
         viewer.compass.setVisible(true)
 
-        const pcUrl = import.meta.env.VITE_POINTCLOUD // '/pointclouds/cloud/metadata.json'
+        const pcUrl = import.meta.env.VITE_BASE_DATA_URL + import.meta.env.VITE_POINTCLOUD // '/pointclouds/cloud/metadata.json'
         Potree.loadPointCloud(
             pcUrl,
             "test_cloud",

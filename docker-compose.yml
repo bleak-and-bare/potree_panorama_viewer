@@ -1,0 +1,10 @@
+services:
+  frontend:
+    container_name: panorama_viewer
+    build: ./client
+    env_file:
+        - .env
+    ports:
+      - ${PORT}:${PORT}
+    volumes: 
+        - ${DATAS}:/app/public${VITE_BASE_DATA_URL}:ro
