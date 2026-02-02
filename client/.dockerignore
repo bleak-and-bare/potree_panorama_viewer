@@ -1,5 +1,12 @@
 node_modules/
 .yarn/
 dist/
+build/
 public/datas/
 .env
+
+# potree
+potree/pointclouds/
+potree/resources/
+potree/examples/
+potree/docs
