@@ -59,19 +59,23 @@ export function PotreeViewer({ pointBudget, setSelectedPano, viewMode }: PotreeV
         if (!viewer || !panoRef.current) return
 
         const group = panoRef.current.markerGroup
+        group.clear()
         panoramas.forEach(pano => {
             const marker = createMarker(pano)
             group.add(marker)
         })
         viewer.scene.scene.add(group)
 
-        setupMarkerInteraction(viewer, pano => {
+        const removeInteraction = setupMarkerInteraction(viewer, pano => {
             if (viewMode === ViewMode.Panorama) return
 
             setActivePanoId(pano.id)
             setSelectedPano(pano.id)
         })
-    }, [panoramas, panoRef])
+        return () => {
+            removeInteraction()
+        }
+    }, [panoramas, viewMode, setSelectedPano])
 
     useEffect(() => {
         if (
@@ -142,7 +146,7 @@ function setupMarkerInteraction(
 
     const dom = viewer.renderer.domElement;
 
-    dom.addEventListener("click", (event) => {
+    const handleClick = (event: MouseEvent) => {
         const camera = viewer.scene.getActiveCamera()
         if (!camera) {
             console.error("Failed to get active camera")
@@ -163,6 +167,10 @@ function setupMarkerInteraction(
                 break;
             }
         }
-    });
-}
+    }
 
+    dom.addEventListener("click", handleClick)
+    return () => {
+        dom.removeEventListener("click", handleClick)
+    }
+}
